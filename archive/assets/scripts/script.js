@@ -5,6 +5,7 @@ const startButton = document.querySelector("#start");
 const backButton = document.querySelector("#back");
 const nextButton = document.querySelector("#next");
 const resetButton  = document.querySelector("#reset");
+const radioButton = document.querySelector("#answer");
 
 //at load disable reset button 
 resetButton.disabled = true;
@@ -21,7 +22,7 @@ function startQuiz (event) {
         answerArea.setAttribute("style", "display:block");
         nextButton.setAttribute("style", "display:inline");
         position = 0;
-        console.log("position at start is " + position);
+        // console.log("position at start is " + position);
         if (position===0){
         backButton.setAttribute("style", "display:none");  
         }
@@ -149,7 +150,7 @@ const questions = [
 
 
 
-//create function to render question on screen followed by corresponding options added as radio buttons
+//create function to render question on screen followed by corresponding options added as text (attempts to use radio buttons failed in the alloted time)
 
     function renderQuestions (index) {
         let currentQuestion = questions[index].question;
@@ -161,6 +162,7 @@ const questions = [
             radiobox.name = 'check';
             radiobox.id = 'answer';
             radiobox.value = element;
+            radiobox.onchange = "getValue(this)";
            
             var label = document.createElement('label')
             label.htmlFor = 'answer';
@@ -177,19 +179,32 @@ const questions = [
   
         }
         )
+
     }
-
-
-//call render questions functions
+    
+    //call render questions functions
 renderQuestions(0)
-
+   
+   
+// capturing use answer with a var that gets all radio button IDs and an Event listener attached to that var with a function outputs  
+// var userSelection = document.getElementById("answer");
+var userSelectionValue = document.getElementById("answer").value;
+console.log(userSelectionValue)
+// userSelectionValue.addEventListener("change", function() {
+        // event.preventDefault;
+        
+        // alert("The value of the radio button is: " + x);
+        // console.log(`Last value I captured of Radio button selection is ${x}`)
+    // }
+    // ),
 
 //next button function to move forward one position in the Questions array. Hide Back button if we are begining of quiz
+
 function nextQuestion (event) {
     // position = 0;
-    position++;
     answerArea.innerHTML = "";
-    console.log(position)
+    position++;
+    // console.log(position)
     renderQuestions(position);
     if (position===0){
         backButton.setAttribute("style", "display:none");  
@@ -201,17 +216,8 @@ function nextQuestion (event) {
             backButton.setAttribute("style", "display:inline") 
             nextButton.setAttribute("style", "display:inline")
         }
-        // get value of user selection
-    userAnswer = document.getElementsByName("radiobox.check").value;
-    console.log(userAnswer);
-    function evaluateAnswer () {
-        var userChoice = document.getElementById("answer").checked
-        console.log(userChoice)
-    
-    }
-    evaluateAnswer();
-    
-    }
+    } 
+// nextButton.addEventListener("click", nextQuestion);
 nextButton.addEventListener("click", nextQuestion);
 
 //back button function to move backwards one position in the Questions array. Hide Next button if we are end of quiz
@@ -219,7 +225,7 @@ nextButton.addEventListener("click", nextQuestion);
 function previousQuestion (event) {
     answerArea.innerHTML = "";
     position--;
-    console.log(position)
+    // console.log(position)
     renderQuestions(position);
     if (position===0){
         backButton.setAttribute("style", "display:none");  
@@ -231,9 +237,19 @@ function previousQuestion (event) {
             backButton.setAttribute("style", "display:inline") 
             nextButton.setAttribute("style", "display:inline")
         }
-        
+   
     }
 backButton.addEventListener("click", previousQuestion);
 
-// //function to evaluate answer
 
+
+// event listener for capturing value of selection after clicking a radio box copied from https://www.techiedelight.com/bind-change-event-handler-radio-button-javascript it uses the arrow function https://www.w3schools.com/js/js_arrow_function.asp
+// var radios = document.querySelectorAll('input[type=radio][name="check"]');
+// radios.forEach(radio => radio.addEventListener('change', () => console.log(radio.value)));
+
+
+// var radios = document.querySelectorAll('input[type=radio][name="check"]');
+// radios.forEach(radio => radio.addEventListener('change', captureRadio));
+
+// function captureRadio () {
+//     console.log(radios.value);

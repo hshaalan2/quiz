@@ -61,6 +61,10 @@ main {
 }
   
 
+#answers {
+  font-size: 20px;
+
+}
 section {
   flex: 0 auto;
   padding: 8px;
